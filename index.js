@@ -15,7 +15,7 @@ class Suv extends Car {
 
 class SingletonCar extends Car {
 	static instance = null;
-	constructor(doors, engine, color) {
+	constructor({ doors = 4, engine = 'v6', color = 'blue' }) {
 		if (SingletonCar.instance) {
 			return SingletonCar.instance;
 		}
@@ -24,10 +24,29 @@ class SingletonCar extends Car {
 	}
 }
 
-const civic = new Car(4, 'v6', 'grey');
-const cx5 = new Suv(4, 'v8', 'red', 4);
-const civic2 = new SingletonCar(4, 'v6', 'grey');
+class CarFactory {
+	createCar(type) {
+		switch (type) {
+			case 'civic':
+				return new Car(4, 'v6', 'grey');
+			case 'honda':
+				return new Car(2, 'v4', 'red');
+			case 'suv':
+				return new Suv(4, 'v8', 'black', 6);
+			default:
+				return new SingletonCar({});
+		}
+	}
+}
+
+const factory = new CarFactory();
+
+const civic = factory.createCar('civic');
+const honda = factory.createCar('honda');
+const civic2 = factory.createCar('hi');
+const suv = factory.createCar('suv');
 
 console.log(civic);
-console.log(cx5);
+console.log(honda);
 console.log(civic2);
+console.log(suv);
